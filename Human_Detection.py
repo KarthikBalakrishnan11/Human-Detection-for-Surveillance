@@ -11,8 +11,6 @@ sys.path.append('..')
 from utils import label_map_util
 
 cap = cv2.VideoCapture("./test_images/video3.mp4")
-status = False
-count =0
 
 model_name = 'ssd_mobilenet_v1_coco_2017_11_17'
 labels_path = os.path.join('./data', 'mscoco_label_map.pbtxt')
@@ -58,8 +56,6 @@ with detection_graph.as_default():
         
         #Determining the loaded image height and width
         cur_frames = 0
-        track_count = 0
-        check =0
         cv2.namedWindow("Output",cv2.WINDOW_NORMAL);
         while True:
             
@@ -75,10 +71,7 @@ with detection_graph.as_default():
                 img_height, img_width, channels = frame.shape
                 
                 image_np_expanded = np.expand_dims(frame, axis=0)
-                
-            
-                
-                
+ 
                 det_start_time = time.time()
                 (boxes, scores, classes, num) = sess.run(
                         [detection_boxes, detection_scores, detection_classes, num_detections],
@@ -97,7 +90,7 @@ with detection_graph.as_default():
                     p1 = (x1,y1)
                     p2 = (x2,y2)
                     
-                    if(object_index == 1 and scores[0][0]*100 > 25):
+                    if(object_index == 1 and scores[0][0]*100 > 30:
                         cv2.rectangle(frame,p1,p2,(0,255,0),3)
                         
                         print ("Detection Done")
